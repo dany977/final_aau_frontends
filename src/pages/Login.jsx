@@ -17,7 +17,7 @@ export default function Login() {
     e.preventDefault();
     try {
       if (mode === "register") {
-        await axios.post("http://localhost:7000/api/auth/register", {
+        await axios.post("https://final-project-aau-backend.onrender.com", {
           firstName,
           lastName,
           email,
@@ -30,7 +30,7 @@ export default function Login() {
         return;
       }
 
-      const res = await axios.post("http://localhost:7000/api/auth/login", {
+      const res = await axios.post("https://final-project-aau-backend.onrender.com", {
         username,
         password
       });
