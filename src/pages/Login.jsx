@@ -19,15 +19,21 @@ export default function Login() {
   try {
     if (mode === "register") {
       await axios.post(
-        "https://final-project-aau-backend.onrender.com/user/register",
-        {
-          firstName,
-          lastName,
-          email,
-          username,
-          password
-        }
-      );
+  "https://final-project-aau-backend.onrender.com/user/register",
+  {
+    firstName,
+    lastName,
+    email,
+    username,
+    password
+  },
+  {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }
+);
+
 
       alert("Registered successfully! You can now login.");
       setMode("login");
