@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Update navbar whenever route changes
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
-  }, []);
+  }, [location]);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -23,8 +25,9 @@ function Navbar() {
     <nav className="bg-white fixed top-0 left-0 w-full shadow-md z-50">
       <div className="container mx-auto flex items-center justify-between p-4">
 
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-cyan-600">Farm</Link>
+        <Link to="/" className="text-2xl font-bold text-cyan-600">
+          Farm
+        </Link>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-10 text-black font-medium">
@@ -33,7 +36,7 @@ function Navbar() {
           <Link to="/farms">Farms</Link>
         </ul>
 
-        {/* Right Side Buttons */}
+        {/* Right Buttons */}
         <div className="hidden md:flex items-center space-x-4">
           {isLoggedIn ? (
             <button
@@ -52,8 +55,11 @@ function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button className="md:hidden text-cyan-600 text-3xl" onClick={toggleMenu}>
+        {/* Mobile Menu Toggle */}
+        <button
+          className="md:hidden text-cyan-600 text-3xl"
+          onClick={toggleMenu}
+        >
           {menuOpen ? "✖" : "☰"}
         </button>
       </div>
