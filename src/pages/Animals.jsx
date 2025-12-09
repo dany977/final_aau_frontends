@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import api from "../utils/axios";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +31,7 @@ export default function Animals() {
   // Load farms
   const fetchFarms = async () => {
     try {
-      const res = await api.get("/farms?page=1&limit=200");
+      const res = await api.get("/api/farms?page=1&limit=200");
       setFarms(res.data.farms || []);
     } catch (err) {
       console.error("Failed to load farms", err);
@@ -47,8 +46,8 @@ export default function Animals() {
 
       const url =
         farmId === "ALL"
-          ? "/animals"
-          : `/animals?farmId=${farmId}`;
+          ? "/api/animals"
+          : `/api/animals?farmId=${farmId}`;
 
       const res = await api.get(url);
       setAnimals(res.data.animals || []);
@@ -88,14 +87,14 @@ export default function Animals() {
       setSaving(true);
 
       if (editingId) {
-        const res = await api.put(`/animals/${editingId}`, form);
+        const res = await api.put(`/api/animals/${editingId}`, form);
         setAnimals((prev) =>
           prev.map((a) => (a.id === editingId ? res.data.animal : a))
         );
         setEditingId(null);
         alert("Animal updated");
       } else {
-        const res = await api.post("/animals", form);
+        const res = await api.post("/api/animals", form);
         setAnimals((prev) => [res.data.animal, ...prev]);
         alert("Animal added");
       }
@@ -134,7 +133,7 @@ export default function Animals() {
     if (!confirm("Delete this animal?")) return;
 
     try {
-      await api.delete(`/animals/${id}`);
+      await api.delete(`/api/animals/${id}`);
       setAnimals((prev) => prev.filter((a) => a.id !== id));
       alert("Deleted");
     } catch (err) {
@@ -221,14 +220,18 @@ export default function Animals() {
           className="input"
           placeholder="Production purpose"
           value={form.productionPurpose}
-          onChange={(e) => setForm({ ...form, productionPurpose: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, productionPurpose: e.target.value })
+          }
         />
 
         <input
           className="input"
           placeholder="Location status"
           value={form.locationStatus}
-          onChange={(e) => setForm({ ...form, locationStatus: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, locationStatus: e.target.value })
+          }
         />
 
         <input
