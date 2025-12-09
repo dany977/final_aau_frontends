@@ -1,124 +1,123 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function Login() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState("login");
 
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
-  const submit = async (e) => {
+  const validate = () => {
+    let temp = {};
+
+    if (!email.trim()) {
+      temp.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      temp.email = "Invalid email format";
+    }
+
+    if (!password.trim()) {
+      temp.password = "Password is required";
+    } else if (password.length < 6) {
+      temp.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(temp);
+
+    return Object.keys(temp).length === 0;
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    if (!validate()) return;
+
+    setLoading(true);
 
     try {
-      if (mode === "register") {
-        await axios.post(
-  "https://final-project-aau-backend.onrender.com/api/auth/register",
+      // Fake API delay for demo
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
-          {
-            firstName,
-            lastName,
-            email,
-            username,
-            password
-          },
-          { headers: { "Content-Type": "application/json" } }
-        );
-
-        alert("Registered successfully! You can now login.");
-        setMode("login");
-        return;
-      }
-
-      // LOGIN
-      const res = await axios.post(
-  "https://final-project-aau-backend.onrender.com/api/auth/login",
-
-        { username, password }
-      );
-
-      localStorage.setItem("token", res.data.token);
-      navigate("/farms");
-
-    } catch (err) {
-      alert(err.response?.data?.message || "Auth error");
-      console.error(err);
+      alert("Logged in successfully!");
+      
+      // Your login API here:
+      // const res = await axios.post("/login", { email, password });
+      // localStorage.setItem("token", res.data.token);
+      
+    } catch (error) {
+      alert("Login failed!");
     }
+
+    setLoading(false);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
-        <h3 className="text-2xl font-bold text-center mb-6 text-gray-800">
-          {mode === "login" ? "Login" : "Create Account"}
-        </h3>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
 
-        <form onSubmit={submit} className="space-y-4">
-          {mode === "register" && (
-            <>
-              <input
-                placeholder="First Name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              />
+        <form onSubmit={handleLogin}>
+          {/* EMAIL */}
+          <div className="mb-4">
+            <label className="block text-black mb-1">Email</label>
+            <input
+              type="text"
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none ${
+                errors.email ? "border-red-500" : ""
+              }`}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
 
-              <input
-                placeholder="Last Name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              />
+          {/* PASSWORD */}
+          <div className="mb-4 relative">
+            <label className="block text-black mb-1">Password</label>
 
-              <input
-                placeholder="Email Address"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </>
-          )}
+            <input
+              type={passwordVisible ? "text" : "password"}
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none ${
+                errors.password ? "border-red-500" : ""
+              }`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <input
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          />
+            {/* Eye Icon */}
+            <span
+              className="absolute right-3 top-10 transform -translate-y-1/2 cursor-pointer text-gray-500"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            >
+              {passwordVisible ? (
+                <AiOutlineEyeInvisible size={22} />
+              ) : (
+                <AiOutlineEye size={22} />
+              )}
+            </span>
 
-          <input
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
+          </div>
 
+          {/* LOGIN BUTTON */}
           <button
             type="submit"
-            className="w-full py-2 mt-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 flex justify-center items-center"
+            disabled={loading}
           >
-            {mode === "login" ? "Login" : "Register"}
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
-
-        <div className="text-center mt-4">
-          <button
-            type="button"
-            onClick={() => setMode(mode === "login" ? "register" : "login")}
-            className="text-blue-600 hover:underline font-medium"
-          >
-            {mode === "login"
-              ? "Don't have an account? Register"
-              : "Already have an account? Login"}
-          </button>
-        </div>
       </div>
     </div>
   );
