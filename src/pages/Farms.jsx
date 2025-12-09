@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import api from "../utils/axios";
 
@@ -16,7 +15,7 @@ export default function Farms() {
   const fetchFarms = async (p = page) => {
     try {
       setLoading(true);
-      const res = await api.get(`/farms?page=${p}&limit=${limit}`);
+      const res = await api.get(`/api/farms?page=${p}&limit=${limit}`);
       setFarms(res.data?.farms || []);
       setTotalPages(res.data?.totalPages || 1);
       setPage(res.data?.page || p);
@@ -38,9 +37,9 @@ export default function Farms() {
       setLoading(true);
 
       if (editId) {
-        await api.put(`/farms/${editId}`, form);
+        await api.put(`/api/farms/${editId}`, form);
       } else {
-        await api.post(`/farms`, form);
+        await api.post(`/api/farms`, form);
       }
 
       setForm({ name: "", location: "", description: "" });
@@ -59,7 +58,7 @@ export default function Farms() {
     if (!confirm("Are you sure you want to delete this farm?")) return;
 
     try {
-      await api.delete(`/farms/${id}`);
+      await api.delete(`/api/farms/${id}`);
       fetchFarms(page);
     } catch (err) {
       alert("Delete failed");
