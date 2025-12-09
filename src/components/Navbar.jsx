@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-
+function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  // Detect token change on route navigation
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
-  }, [location]);
+  }, []);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,66 +20,66 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-cyan-500 px-6 py-4 shadow-md">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <nav className="bg-white fixed top-0 left-0 w-full shadow-md z-50">
+      <div className="container mx-auto flex items-center justify-between p-4">
 
         {/* Logo */}
-        <h1 className="text-white font-bold text-xl">Farm Profile</h1>
-
-        {/* Mobile Menu Icon */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="text-white text-2xl md:hidden"
-        >
-          ☰
-        </button>
+        <Link to="/" className="text-2xl font-bold text-cyan-600">Farm</Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex md:space-x-10 text-black font-medium mx-auto">
+        <ul className="hidden md:flex space-x-10 text-black font-medium">
           <Link to="/">Home</Link>
-
-          {isLoggedIn && <Link to="/animals">Animals</Link>}
-          {isLoggedIn && <Link to="/farms">Farms</Link>}
+          <Link to="/animals">Animals</Link>
+          <Link to="/farms">Farms</Link>
         </ul>
 
-        {/* Desktop Login/Logout */}
-        {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="hidden md:block px-3 py-1 bg-red-600 text-white rounded-md"
-          >
-            Logout
-          </button>
-        ) : (
-          <Link
-            to="/login"
-            className="hidden md:block px-3 py-1 bg-green-600 text-white rounded-md"
-          >
-            Login
-          </Link>
-        )}
-      </div>
-
-      {/* Mobile Dropdown */}
-      {open && (
-        <ul className="flex flex-col space-y-3 text-black font-medium bg-cyan-500 p-5 md:hidden">
-
-          <Link to="/">Home</Link>
-
-          {isLoggedIn && <Link to="/animals">Animals</Link>}
-          {isLoggedIn && <Link to="/farms">Farms</Link>}
-
+        {/* Right Side Buttons */}
+        <div className="hidden md:flex items-center space-x-4">
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="py-2 bg-red-600 text-white rounded-md"
+              className="text-white bg-red-500 px-4 py-2 rounded hover:bg-red-600"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/login"
-              className="py-2 bg-green-600 text-white rounded-md"
+              className="text-white bg-cyan-500 px-4 py-2 rounded hover:bg-cyan-600"
+            >
+              Login
+            </Link>
+          )}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button className="md:hidden text-cyan-600 text-3xl" onClick={toggleMenu}>
+          {menuOpen ? "✖" : "☰"}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <ul className="flex flex-col space-y-3 text-black font-medium bg-cyan-500 p-5 md:hidden">
+          <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/animals" onClick={() => setMenuOpen(false)}>Animals</Link>
+          <Link to="/farms" onClick={() => setMenuOpen(false)}>Farms</Link>
+
+          {isLoggedIn ? (
+            <button
+              onClick={() => {
+                handleLogout();
+                setMenuOpen(false);
+              }}
+              className="text-white bg-red-500 px-4 py-2 rounded"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setMenuOpen(false)}
+              className="text-white bg-cyan-600 px-4 py-2 rounded"
             >
               Login
             </Link>
@@ -90,3 +89,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default Navbar;
