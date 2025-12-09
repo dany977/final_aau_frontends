@@ -14,34 +14,43 @@ export default function Login() {
   const navigate = useNavigate();
 
   const submit = async (e) => {
-    e.preventDefault();
-    try {
-      if (mode === "register") {
-        await axios.post("https://final-project-aau-backend.onrender.com", {
+  e.preventDefault();
+
+  try {
+    if (mode === "register") {
+      await axios.post(
+        "https://final-project-aau-backend.onrender.com/user/register",
+        {
           firstName,
           lastName,
           email,
           username,
           password
-        });
+        }
+      );
 
-        alert("Registered successfully! You can now login.");
-        setMode("login");
-        return;
-      }
+      alert("Registered successfully! You can now login.");
+      setMode("login");
+      return;
+    }
 
-      const res = await axios.post("https://final-project-aau-backend.onrender.com", {
+    // LOGIN
+    const res = await axios.post(
+      "https://final-project-aau-backend.onrender.com/user/login",
+      {
         username,
         password
-      });
+      }
+    );
 
-      localStorage.setItem("token", res.data.token);
-      navigate("/farms");
-    } catch (err) {
-      alert(err.response?.data?.message || "Auth error");
-      console.error(err);
-    }
-  };
+    localStorage.setItem("token", res.data.token);
+    navigate("/farms");
+
+  } catch (err) {
+    alert(err.response?.data?.message || "Auth error");
+    console.error(err);
+  }
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
