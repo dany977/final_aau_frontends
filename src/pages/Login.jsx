@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,54 +8,48 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState("login"); // login or register
+  const [mode, setMode] = useState("login");
 
   const navigate = useNavigate();
 
   const submit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    if (mode === "register") {
-      await axios.post(
-  "https://final-project-aau-backend.onrender.com/user/register",
-  {
-    firstName,
-    lastName,
-    email,
-    username,
-    password
-  },
-  {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }
-);
+    try {
+      if (mode === "register") {
+        await axios.post(
+  "https://final-project-aau-backend.onrender.com/api/auth/register",
 
+          {
+            firstName,
+            lastName,
+            email,
+            username,
+            password
+          },
+          { headers: { "Content-Type": "application/json" } }
+        );
 
-      alert("Registered successfully! You can now login.");
-      setMode("login");
-      return;
-    }
-
-    // LOGIN
-    const res = await axios.post(
-      "https://final-project-aau-backend.onrender.com/user/login",
-      {
-        username,
-        password
+        alert("Registered successfully! You can now login.");
+        setMode("login");
+        return;
       }
-    );
 
-    localStorage.setItem("token", res.data.token);
-    navigate("/farms");
+      // LOGIN
+      const res = await axios.post(
+  "https://final-project-aau-backend.onrender.com/api/auth/login",
 
-  } catch (err) {
-    alert(err.response?.data?.message || "Auth error");
-    console.error(err);
-  }
-};
+        { username, password }
+      );
+
+      localStorage.setItem("token", res.data.token);
+      navigate("/farms");
+
+    } catch (err) {
+      alert(err.response?.data?.message || "Auth error");
+      console.error(err);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
