@@ -74,27 +74,9 @@ export default function Home() {
           transition={{ delay: 0.5, duration: 0.8 }}
         >
           {/* Farms Card */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="p-6 bg-white rounded-xl shadow-lg cursor-pointer hover:shadow-xl transition"
-            onClick={() => (window.location.href = "/farms")}
-          >
-            <h2 className="text-xl font-bold text-cyan-600">Farms</h2>
-            <p className="text-gray-600 mt-2">
-              View and Manage farm             </p>
-          </motion.div>
-
-          {/* Animals Card */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="p-6 bg-white rounded-xl shadow-lg cursor-pointer hover:shadow-xl transition"
-            onClick={() => (window.location.href = "/animals")}
-          >
-            <h2 className="text-xl font-bold text-blue-600">Animals</h2>
-            <p className="text-gray-600 mt-2">
-              Animal information
-            </p>
-          </motion.div>
+          
+          
+          
 
           {/* Users Card
           <motion.div
