@@ -8,46 +8,34 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const [mode, setMode] = useState("login");
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
-
-    // --- Validation ---
-    if (!username || !password) {
-      return setErrorMessage("Username and password are required.");
-    }
-
-    if (mode === "register") {
-      if (!firstName || !lastName || !email) {
-        return setErrorMessage("Please fill all registration fields.");
-      }
-    }
+    setError("");
+    setLoading(true);
 
     try {
-      setLoading(true);
-
       if (mode === "register") {
+        if (!firstName || !lastName || !email || !username || !password) {
+          setError("All fields are required.");
+          setLoading(false);
+          return;
+        }
+
         await axios.post(
           "https://final-project-aau-backend.onrender.com/api/auth/register",
-          {
-            firstName,
-            lastName,
-            email,
-            username,
-            password,
-          },
-          { headers: { "Content-Type": "application/json" } }
+          { firstName, lastName, email, username, password }
         );
 
+        alert("Registered successfully! You can now login.");
         setMode("login");
-        setErrorMessage("Registered successfully! You can now login.");
         setLoading(false);
         return;
       }
@@ -59,14 +47,13 @@ export default function Login() {
       );
 
       localStorage.setItem("token", res.data.token);
-
       navigate("/farms");
     } catch (err) {
-      setErrorMessage(err.response?.data?.message || "Authentication failed");
+      setError(err.response?.data?.message || "Authentication failed.");
       console.error(err);
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -76,10 +63,8 @@ export default function Login() {
           {mode === "login" ? "Login" : "Create Account"}
         </h3>
 
-        {errorMessage && (
-          <p className="text-red-600 text-center mb-4 font-medium">
-            {errorMessage}
-          </p>
+        {error && (
+          <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
         )}
 
         <form onSubmit={submit} className="space-y-4">
@@ -109,6 +94,7 @@ export default function Login() {
             </>
           )}
 
+          {/* Username */}
           <input
             placeholder="Username"
             value={username}
@@ -116,28 +102,31 @@ export default function Login() {
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           />
 
-          <input
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          />
+          {/* Password with Eye Icon */}
+          <div className="relative">
+            <input
+              placeholder="Password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            />
 
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </span>
+          </div>
+
+          {/* Button */}
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 mt-2 text-white font-semibold rounded-lg transition ${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
+            className="w-full py-2 mt-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
           >
-            {loading
-              ? "Processing..."
-              : mode === "login"
-              ? "Login"
-              : "Register"}
+            {loading ? "Loading..." : mode === "login" ? "Login" : "Register"}
           </button>
         </form>
 
@@ -145,14 +134,14 @@ export default function Login() {
           <button
             type="button"
             onClick={() => {
-              setErrorMessage("");
               setMode(mode === "login" ? "register" : "login");
+              setError("");
             }}
             className="text-blue-600 hover:underline font-medium"
           >
             {mode === "login"
               ? "Don't have an account? Register"
-              : "Already have an account? Login"}
+              : "Already registered? Login"}
           </button>
         </div>
       </div>
