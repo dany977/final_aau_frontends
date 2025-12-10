@@ -26,7 +26,7 @@ function Navbar() {
       <div className="container mx-auto flex items-center justify-between p-4">
 
         <Link to="/" className="text-2xl font-bold text-cyan-600">
-          Farm
+          Farm Profile
         </Link>
 
         {/* Desktop Menu */}
