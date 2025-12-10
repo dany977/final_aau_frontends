@@ -38,14 +38,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import FarmGrid from "../components/FarmGrid";
 
-export default function Home() {
-  return (
-    <div className="mt-10">
-      <FarmGrid />
-    </div>
-  );
-}
-
 
 export default function Home() {
   return (
@@ -104,5 +96,7 @@ export default function Home() {
       
     </div>
   );
- 
+ <div className="mt-10">
+      <FarmGrid />
+    </div>
 }
