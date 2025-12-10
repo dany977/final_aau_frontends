@@ -33,8 +33,7 @@
 //       </div>
 //     </div>
 //   );
-// }
-import FarmGrid from "../components/FarmGrid";
+// }import FarmGrid from "../components/FarmGrid";
 
 export default function Home() {
   return (
@@ -43,8 +42,9 @@ export default function Home() {
       {/* Hero Section */}
       <div className="relative">
         <img
-          src="your-image-here.jpg"
+          src="/assets/hero.jpg"    // <-- make sure this file exists
           className="w-full h-96 object-cover"
+          alt="Farm Hero"
         />
 
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-xl shadow">
@@ -52,12 +52,12 @@ export default function Home() {
             Welcome to Farm Management System
           </h1>
           <p className="text-center text-gray-700">
-            Manage your farms, Animals and Users
+            Manage your farms, animals and users.
           </p>
         </div>
       </div>
 
-      {/* 👇 Add FarmGrid here */}
+      {/* Farm Grid */}
       <div className="mt-10 p-6">
         <FarmGrid />
       </div>
