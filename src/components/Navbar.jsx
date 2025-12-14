@@ -1,19 +1,40 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  return (
-    <header className="bg-gray-900 text-white shadow-md">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Farm Profile</h1>
+  const [open, setOpen] = useState(false);
 
-        <nav className="space-x-6">
-          <Link to="/" className="hover:text-cyan-400">Home</Link>
-          <Link to="/farms" className="hover:text-cyan-400">Farms</Link>
-          <Link to="/animals" className="hover:text-cyan-400">Animals</Link>
-          <Link to="/login" className="hover:text-cyan-400">Login</Link>
-        </nav>
+  return (
+    <nav className="bg-cyan-600 text-white">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 className="font-bold text-xl">Farm System</h1>
+
+        {/* Desktop */}
+        <div className="hidden md:flex gap-6">
+          <Link to="/">Home</Link>
+          <Link to="/farms">Farms</Link>
+          <Link to="/animals">Animals</Link>
+          <Link to="/login">Login</Link>
+        </div>
+
+        {/* Mobile button */}
+        <button
+          className="md:hidden"
+          onClick={() => setOpen(!open)}
+        >
+          ☰
+        </button>
       </div>
-    </header>
+
+      {/* Mobile menu */}
+      {open && (
+        <div className="md:hidden bg-cyan-700 px-6 py-4 space-y-3">
+          <Link to="/" onClick={() => setOpen(false)}>Home</Link>
+          <Link to="/farms" onClick={() => setOpen(false)}>Farms</Link>
+          <Link to="/animals" onClick={() => setOpen(false)}>Animals</Link>
+          <Link to="/login" onClick={() => setOpen(false)}>Login</Link>
+        </div>
+      )}
+    </nav>
   );
 }
