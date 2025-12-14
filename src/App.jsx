@@ -1,29 +1,47 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-
-import Home from "./pages/Home";
-import Farms from "./pages/Farms";
-import Animals from "./pages/Animals";
 import Login from "./pages/Login";
+import Farms from "./pages/Farms";
+import Home from "./pages/Home";
+import Animals from "./pages/Animals";
+import AnimalDetail from "./pages/AnimalDetail";
+import axios from "axios";
 
-export default function App() {
+axios.defaults.withCredentials = true;
+
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" replace />;
+};
+
+function App() {
   return (
     <BrowserRouter>
       <Navbar />
 
-      <main className="min-h-screen">
+      <div className="w-full min-h-screen bg-gray-200 pt-20">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/farms" element={<Farms />} />
-          <Route path="/animals" element={<Animals />} />
           <Route path="/login" element={<Login />} />
-        </Routes>
-      </main>
+          <Route path="/animals" element={<Animals />} />
+          <Route path="/animals/:id" element={<AnimalDetail />} />
 
-      <Footer />
+          <Route
+            path="/farms"
+            element={
+              <ProtectedRoute>
+                <Farms />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<h2>Page Not Found</h2>} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
+
+export default App;
