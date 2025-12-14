@@ -39,7 +39,6 @@ export default function Footer() {
 
       </div>
 
-      {/* Copyright */}
       <div className="border-t border-gray-700 text-center py-4 text-sm">
         © {new Date().getFullYear()} Farm Profile. All rights reserved.
       </div>
