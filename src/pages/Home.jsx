@@ -6,10 +6,18 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div
-      className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 sm:px-6"
-      style={{ backgroundImage: "url('/image2.jpg')" }}
-    >
+ <div
+  className="relative w-full min-h-screen flex items-center justify-center px-4 sm:px-6"
+  style={{
+    background: `
+      linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+      url('/image2.jpg')
+    `,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+
       {/* Background overlay (behind content) */}
       <div className="absolute inset-0 bg-black/50 -z-10"></div>
 
