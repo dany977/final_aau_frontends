@@ -1,3 +1,4 @@
+import React from "react";
 import FarmGrid from "../components/FarmGrid";
 import Footer from "../components/Footer";
 
