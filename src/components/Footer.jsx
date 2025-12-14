@@ -33,13 +33,12 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-white mb-3">
             Contact
           </h3>
-          <p className="text-sm">Email: danielalemu33@.com</p>
+          <p className="text-sm">Email: danielalemu33@gmail.com</p>
           <p className="text-sm">Phone: +251 912259318</p>
         </div>
 
       </div>
 
-      {/* Copyright */}
       <div className="border-t border-gray-700 text-center py-4 text-sm">
         © {new Date().getFullYear()} Farm Profile. All rights reserved.
       </div>

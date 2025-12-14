@@ -5,34 +5,26 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Animals from "./pages/Animals";
-import AnimalDetail from "./pages/AnimalDetail";
 import Farms from "./pages/Farms";
+import Animals from "./pages/Animals";
+import Login from "./pages/Login";
 
-function App() {
+export default function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        {/* Navbar */}
-        <Navbar />
+      {/* ✅ HEADER / NAVIGATION */}
+      <Navbar />
 
-        {/* Main content */}
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/animals" element={<Animals />} />
-            <Route path="/animals/:id" element={<AnimalDetail />} />
-            <Route path="/farms" element={<Farms />} />
-          </Routes>
-        </main>
+      {/* ✅ PAGE CONTENT */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/farms" element={<Farms />} />
+        <Route path="/animals" element={<Animals />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
 
-        {/* Footer */}
-        <Footer />
-      </div>
+      {/* ✅ FOOTER */}
+      <Footer />
     </Router>
   );
 }
-
-export default App;
