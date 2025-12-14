@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../utils/axios";
+import axios from "../utils/axios"; // you already have this
 
 export default function StatsCards() {
   const [stats, setStats] = useState({
@@ -9,39 +9,20 @@ export default function StatsCards() {
   });
 
   useEffect(() => {
-    const loadStats = async () => {
-      try {
-        const res = await api.get("/stats"); // backend later
+    axios.get("/dashboard/stats")
+      .then(res => {
         setStats(res.data);
-      } catch (error) {
-        console.warn("Backend not ready, using fallback numbers");
-
-        // ✅ FALLBACK (your real numbers)
-        setStats({
-          farms: 4,
-          animals: 0,
-          users: 1,
-        });
-      }
-    };
-
-    loadStats();
+      })
+      .catch(err => {
+        console.error("Stats error:", err);
+      });
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <Card title="Farms" value={stats.farms} />
       <Card title="Animals" value={stats.animals} />
       <Card title="Users" value={stats.users} />
-    </div>
-  );
-}
-
-function Card({ title, value }) {
-  return (
-    <div className="bg-white rounded-xl shadow p-6 text-center">
-      <p className="text-gray-500 text-sm">{title}</p>
-      <p className="text-3xl font-bold text-teal-600 mt-2">{value}</p>
     </div>
   );
 }
