@@ -1,46 +1,37 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import Login from "./pages/Login";
-import Farms from "./pages/Farms";
+import Footer from "./components/Footer";
+
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Animals from "./pages/Animals";
 import AnimalDetail from "./pages/AnimalDetail";
-import axios from "axios";
-
-axios.defaults.withCredentials = true;
-
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/login" replace />;
-};
+import Farms from "./pages/Farms";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        {/* Navbar */}
+        <Navbar />
 
-      <div className="w-full min-h-screen bg-gray-200 pt-20">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/animals" element={<Animals />} />
-          <Route path="/animals/:id" element={<AnimalDetail />} />
+        {/* Main content */}
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/animals" element={<Animals />} />
+            <Route path="/animals/:id" element={<AnimalDetail />} />
+            <Route path="/farms" element={<Farms />} />
+          </Routes>
+        </main>
 
-          <Route
-            path="/farms"
-            element={
-              <ProtectedRoute>
-                <Farms />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route path="*" element={<h2>Page Not Found</h2>} />
-        </Routes>
+        {/* Footer */}
+        <Footer />
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 
