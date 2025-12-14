@@ -131,15 +131,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-gray-900 text-gray-300 py-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <p>
-            © {new Date().getFullYear()} Farm Management System. All rights
-            reserved.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
