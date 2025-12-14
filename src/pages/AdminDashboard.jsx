@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import StatsCards from "../components/StatsCards";
 import AnimalsChart from "../components/AnimalsChart";
 
