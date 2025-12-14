@@ -33,8 +33,8 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-white mb-3">
             Contact
           </h3>
-          <p className="text-sm">Email: support@farmprofile.com</p>
-          <p className="text-sm">Phone: +251 9xx xxx xxx</p>
+          <p className="text-sm">Email: danielalemu33@gmail.com</p>
+          <p className="text-sm">Phone: +251 912259318</p>
         </div>
 
       </div>
