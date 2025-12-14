@@ -1,56 +1,70 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import StatsCards from "../components/StatsCards";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
-    <div className="bg-gray-100 min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-teal-600">
-            Farm Management System
-          </h1>
-          <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
-            Manage farms, animals, and users efficiently using a modern digital platform.
-          </p>
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      
+      {/* HERO SECTION */}
+      <section className="flex flex-col items-center justify-center text-center py-20 bg-white shadow">
+        <h1 className="text-4xl font-bold text-cyan-600 mb-4">
+          Farm Management System
+        </h1>
+        <p className="text-gray-600 max-w-xl">
+          Manage farms, animals, and users in one modern digital platform
+        </p>
+
+        <div className="flex gap-4 mt-8">
+          <button
+            onClick={() => navigate("/farms")}
+            className="px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
+          >
+            View Farms
+          </button>
+
+          <button
+            onClick={() => navigate("/animals")}
+            className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900"
+          >
+            View Animals
+          </button>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="max-w-7xl mx-auto px-4">
+      {/* STATS SECTION */}
+      <section className="py-16 bg-cyan-600 text-white">
         <StatsCards />
       </section>
 
-      {/* Features Section */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl p-6 shadow hover:shadow-md transition">
-            <h3 className="text-lg font-semibold text-green-600 mb-2">
-              Farms
-            </h3>
-            <p className="text-gray-600">
-              Manage farm profiles, locations, and ownership information.
+      {/* FEATURES */}
+      <section className="py-16">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="text-green-600 font-semibold text-lg">Farms</h3>
+            <p className="text-gray-600 mt-2">
+              Manage farm profiles and locations.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow hover:shadow-md transition">
-            <h3 className="text-lg font-semibold text-blue-600 mb-2">
-              Animals
-            </h3>
-            <p className="text-gray-600">
-              Track animal health, breed, and farm assignment.
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="text-blue-600 font-semibold text-lg">Animals</h3>
+            <p className="text-gray-600 mt-2">
+              Track animal health and ownership.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow hover:shadow-md transition">
-            <h3 className="text-lg font-semibold text-purple-600 mb-2">
-              Users
-            </h3>
-            <p className="text-gray-600">
-              Secure login with role-based access control.
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="text-purple-600 font-semibold text-lg">Users</h3>
+            <p className="text-gray-600 mt-2">
+              Login and role-based access.
             </p>
           </div>
         </div>
       </section>
+
     </div>
   );
 }
