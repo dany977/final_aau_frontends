@@ -1,12 +1,11 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://final-project-aau-backend.onrender.com/api",
+  baseURL: "https://final-project-aau-backend.onrender.com",
 });
 
-// Attach token automatically
 instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
