@@ -4,7 +4,8 @@ const api = axios.create({
   baseURL: "https://final-project-aau-backend.onrender.com",
 });
 
-// Automatically attach token
+axios.get("/api/dashboard/stats")
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
