@@ -30,10 +30,9 @@ export default function Login() {
         }
 
         await axios.post(
-  "https://final-project-aau-backend.onrender.com/api/auth/register",
-  { email, username, password }
-);
-
+          "https://final-project-aau-backend.onrender.com/api/auth/register",
+          { firstName, lastName, email, username, password }
+        );
 
         alert("Registered successfully! You can now login.");
         setMode("login");
