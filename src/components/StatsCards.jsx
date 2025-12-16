@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../utils/axios";
+import axios from "../utils/axios"; 
 
 function Card({ title, value }) {
   return (
@@ -17,9 +17,10 @@ export default function StatsCards() {
     users: 0,
   });
 
+  // 🔹 THIS is where axios.get goes
   useEffect(() => {
     axios
-      .get("/dashboard/stats")
+      .get("/api/dashboard/stats")
       .then((res) => {
         setStats(res.data);
       })
