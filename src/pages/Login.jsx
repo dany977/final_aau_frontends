@@ -41,11 +41,12 @@ export default function Login() {
       }
 
       // LOGIN
-      const res = await axios.post("/auth/login", formData);
+      const res = await axios.post(
+        "https://final-project-aau-backend.onrender.com/api/auth/login",
+        { username, password }
+      );
 
-// SAVE TOKEN
-     localStorage.setItem("token", res.data.accessToken);
-
+      localStorage.setItem("token", res.data.token);
       navigate("/farms");
     } catch (err) {
       setError(err.response?.data?.message || "Authentication failed.");
