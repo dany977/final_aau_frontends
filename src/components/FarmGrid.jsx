@@ -1,3 +1,5 @@
+import axios from "../utils/axios";
+
 export default function FarmGrid() {
   const farms = [
     {

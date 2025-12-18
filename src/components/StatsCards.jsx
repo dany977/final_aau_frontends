@@ -18,16 +18,17 @@ export default function StatsCards() {
   });
 
   // 🔹 THIS is where axios.get goes
-  useEffect(() => {
-    axios
-      .get("/api/dashboard/stats")
-      .then((res) => {
-        setStats(res.data);
-      })
-      .catch((err) => {
-        console.error("Stats API error:", err);
-      });
-  }, []);
+ useEffect(() => {
+  axios.get("/dashboard/stats")
+    .then(res => {
+      console.log("STATS RESPONSE:", res.data); // 
+      setStats(res.data);
+    })
+    .catch(err => {
+      console.error("STATS ERROR:", err.response?.data || err);
+    });
+}, []);
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-10">

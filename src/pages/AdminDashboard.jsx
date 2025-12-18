@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "../utils/axios";
+
 import StatsCards from "../components/StatsCards";
 import AnimalsChart from "../components/AnimalsChart";
 
